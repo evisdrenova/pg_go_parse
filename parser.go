@@ -26,8 +26,6 @@ func (p *Parser) nextToken() {
 // parses select statements
 func (p *Parser) ParseStatement() (*Node, error) {
 
-	fmt.Println("pp", p.curTok.Literal)
-
 	switch p.curTok.Literal {
 	case "SELECT":
 		return p.ParseSelectStatement()
@@ -41,10 +39,6 @@ func (p *Parser) ParseStatement() (*Node, error) {
 func (p *Parser) ParseSelectStatement() (*Node, error) {
 
 	stmt := &SelectStmt{}
-
-	fmt.Println("pppp", p.curTok.Literal)
-	fmt.Println("pppp", p.peekTok)
-	fmt.Println("pp", p.expectPeek(KEYWORD))
 
 	// if the next token is not a keyword or it's not SELECT then return
 	if p.curTok.Literal != "SELECT" {
@@ -122,12 +116,10 @@ func (p *Parser) parseWhereClause() *Node {
 
 // peeks at the next token to check it's type, returns true if it's a TokenType
 func (p *Parser) expectPeek(t TokenType) bool {
-
 	if p.peekTok.Type == t {
 		p.nextToken()
 		return true
 	} else {
 		return false
 	}
-
 }
