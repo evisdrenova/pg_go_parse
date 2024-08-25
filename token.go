@@ -3,6 +3,7 @@ package pggoquery
 type TokenType string
 
 // defines the sql tokens that we might encounter in a sql query
+// mapping of the token Type = Literal
 const (
 	ILLEGAL   TokenType = "ILLEGAL"
 	EOF                 = "EOF"
@@ -16,6 +17,7 @@ const (
 	ASTERISK            = "*"
 	SLASH               = "/"
 	LT                  = "<"
+	PERIOD              = "."
 	GT                  = ">"
 	COMMA               = ","
 	SEMICOLON           = ";"
