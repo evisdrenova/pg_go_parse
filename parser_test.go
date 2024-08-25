@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestParseStatement(t *testing.T) {
+func Test_ParseStatementSelectBasic(t *testing.T) {
 	input := `SELECT name, age FROM users WHERE age > 20`
 
 	l := NewLexer(input)
@@ -32,6 +32,93 @@ func TestParseStatement(t *testing.T) {
 		t.Fatal("stmt.WhereClause is nil")
 	}
 }
+
+func Test_ParseStatementSelectStar(t *testing.T) {
+	input := `SELECT * FROM users WHERE age > 20`
+
+	l := NewLexer(input)
+	p := newParser(l)
+
+	selectStmt, err := p.ParseStatement()
+	if err != nil {
+		t.Fatalf("parser error: %v", err)
+	}
+
+	stmt, ok := selectStmt.NodeType.(*SelectStmt)
+	if !ok {
+		t.Fatalf("expected *SelectStmt, got %T", stmt)
+	}
+
+	if len(stmt.TargetList) != 1 {
+		t.Fatalf("stmt.TargetList has wrong length. got=%d", len(stmt.TargetList))
+	}
+
+	if len(stmt.FromClause) != 1 {
+		t.Fatalf("stmt.FromClause has wrong length. got=%d", len(stmt.FromClause))
+	}
+
+	if stmt.WhereClause == nil {
+		t.Fatal("stmt.WhereClause is nil")
+	}
+}
+
+func Test_ParseStatementSelectManyIdentifiers(t *testing.T) {
+	input := `SELECT name, age, first, last, middle, street, city, state FROM users WHERE age > 20`
+
+	l := NewLexer(input)
+	p := newParser(l)
+
+	selectStmt, err := p.ParseStatement()
+	if err != nil {
+		t.Fatalf("parser error: %v", err)
+	}
+
+	stmt, ok := selectStmt.NodeType.(*SelectStmt)
+	if !ok {
+		t.Fatalf("expected *SelectStmt, got %T", stmt)
+	}
+
+	if len(stmt.TargetList) != 8 {
+		t.Fatalf("stmt.TargetList has wrong length. got=%d", len(stmt.TargetList))
+	}
+
+	if len(stmt.FromClause) != 1 {
+		t.Fatalf("stmt.FromClause has wrong length. got=%d", len(stmt.FromClause))
+	}
+
+	if stmt.WhereClause == nil {
+		t.Fatal("stmt.WhereClause is nil")
+	}
+}
+
+// func Test_ParseStatementSelectFullyQualifiedColumns(t *testing.T) {
+// 	input := `SELECT name, age, first FROM users WHERE age > 20`
+
+// 	l := NewLexer(input)
+// 	p := newParser(l)
+
+// 	selectStmt, err := p.ParseStatement()
+// 	if err != nil {
+// 		t.Fatalf("parser error: %v", err)
+// 	}
+
+// 	stmt, ok := selectStmt.NodeType.(*SelectStmt)
+// 	if !ok {
+// 		t.Fatalf("expected *SelectStmt, got %T", stmt)
+// 	}
+
+// 	if len(stmt.TargetList) != 8 {
+// 		t.Fatalf("stmt.TargetList has wrong length. got=%d", len(stmt.TargetList))
+// 	}
+
+// 	if len(stmt.FromClause) != 1 {
+// 		t.Fatalf("stmt.FromClause has wrong length. got=%d", len(stmt.FromClause))
+// 	}
+
+// 	if stmt.WhereClause == nil {
+// 		t.Fatal("stmt.WhereClause is nil")
+// 	}
+// }
 
 func Test_parseTargetList(t *testing.T) {
 

@@ -16,3 +16,4 @@ So we want to write a native go library that can parse a sql statement represent
 
 - make all statements case insensitive in parser
 - update targetlist in select stmt to be more flexible
+- need to be abel to handle fully qualified identifeirs and tables, right now it's all relative i.e. `users` works fine, but `table.users` doesn't
