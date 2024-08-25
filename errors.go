@@ -1,4 +1,4 @@
-package errors
+package pggoquery
 
 type Error struct {
 	Message   string // exception message

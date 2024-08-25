@@ -1,23 +1,21 @@
-package stmt
-
-import "github.com/evisdrenova/pg_go_parse/internal/node"
+package pggoquery
 
 type SelectStmt struct {
-	DistinctClause []*node.Node
+	DistinctClause []*Node
 	IntoClause     *IntoClause
-	TargetList     []*node.Node
-	FromClause     []*node.Node
-	WhereClause    *node.Node
-	GroupClause    []*node.Node
+	TargetList     []*Node
+	FromClause     []*Node
+	WhereClause    *Node
+	GroupClause    []*Node
 	GroupDistinct  bool
-	HavingClause   *node.Node
-	WindowClause   []*node.Node
-	ValuesLists    []*node.Node
-	SortClause     []*node.Node
-	LimitOffset    *node.Node
-	LimitCount     *node.Node
+	HavingClause   *Node
+	WindowClause   []*Node
+	ValuesLists    []*Node
+	SortClause     []*Node
+	LimitOffset    *Node
+	LimitCount     *Node
 	LimitOption    LimitOption
-	LockingClause  []*node.Node
+	LockingClause  []*Node
 	WithClause     *WithClause
 	Op             SetOperation
 	All            bool
@@ -27,12 +25,12 @@ type SelectStmt struct {
 
 type IntoClause struct {
 	Rel            *RangeVar
-	ColNames       []*node.Node
+	ColNames       []*Node
 	AccessMethod   string
-	Options        []*node.Node
+	Options        []*Node
 	OnCommit       OnCommitAction
 	TableSpaceName string
-	ViewQuery      *node.Node
+	ViewQuery      *Node
 	SkipData       bool
 }
 
@@ -48,7 +46,7 @@ type RangeVar struct {
 
 type Alias struct {
 	Aliasname string
-	Colnames  []*node.Node
+	Colnames  []*Node
 }
 
 type LimitOption int32
@@ -77,7 +75,7 @@ var (
 )
 
 type WithClause struct {
-	Ctes      []*node.Node
+	Ctes      []*Node
 	Recursive bool
 	Location  int32
 }
